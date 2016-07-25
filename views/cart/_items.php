@@ -23,72 +23,72 @@ $coupons = $session->get('coupon', []);
 
     <style>
         #cart-items {
-            display    :block;
-            margin-top :30px;
+            display: block;
+            margin-top: 30px;
         }
 
         #cart-items > .table {
-            -webkit-border-radius :3px;
-            -moz-border-radius    :3px;
-            border-radius         :3px;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
         }
 
-        #cart-items > .table > .table-cell {
-            vertical-align :middle;
-            padding        :2px;
+        #cart-items > .table .table-cell {
+            vertical-align: middle;
+            text-align: left;
+            padding: 5px;
         }
 
         #cart-items .title {
-            font-size   :1.1em;
-            font-weight :500;
-            color       :#666666;
+            font-size: 1.1em;
+            font-weight: 500;
         }
 
         #cart-items .savings {
-            font-size   :1.1em;
-            font-weight :500;
-            color       :#9b403d;
+            font-size: 1.1em;
+            font-weight: 500;
+            color: #9b403d;
         }
 
         #cart-items .image .small-image {
-            padding-top :2px;
-            height      :50px;
+            padding-top: 2px;
+            height: 50px;
         }
 
         #cart-items .table-row:first-of-type .table-cell {
-            border-top :1px solid #CCCCCC;
+            border-top: 1px solid #CCCCCC;
         }
 
         #cart-items > .table > .table-row:hover > .table-cell {
-            background-color :rgba(204, 204, 204, 0.30);
+            background-color: rgba(204, 204, 204, 0.30);
         }
 
         #cart-items > .table > .table-row > .table-cell {
-            padding-right :5px;
-            padding-left  :5px;
-            border-bottom :1px solid #CCCCCC;
-            border-right  :1px dotted #CCCCCC;
+            padding-right: 5px;
+            padding-left: 5px;
+            border-bottom: 1px solid #CCCCCC;
+            border-right: 1px dotted #CCCCCC;
         }
 
         #cart-items > .table > .table-row > .table-cell:first-of-type {
-            border-left :1px solid #CCCCCC;
+            border-left: 1px solid #CCCCCC;
         }
 
         #cart-items > .table > .table-row > .table-cell:last-of-type {
-            border-right :1px solid #CCCCCC;
+            border-right: 1px solid #CCCCCC;
         }
 
         #cart-items .table-cell.discount {
-            color :#80aa88;
+            color: #80aa88;
         }
 
         .boarder-right-0 {
-            border-right :0 !important;
+            border-right: 0 !important;
         }
     </style>
 
 <?php $form = ActiveForm::begin([
-        'action' => 'cart/update',
+    'action' => 'cart/update',
 ]); ?>
     <div id="cart-items">
 
@@ -141,27 +141,29 @@ $coupons = $session->get('coupon', []);
                         <input type="hidden" name="Cart[<?= $item['id'] ?>][product_id]" value="<?= $item['product_id'] ?>"/>
                     </div>
                     <?php if ($is_summary == FALSE) : ?>
-                        <div class="table-cell align-right"><a href="cart/delete?id=<?= $item['id'] ?>"><span class="icon icon-inverse-opacity icon-delete"></span></a></div>
+                        <div class="table-cell align-right"><a href="cart/delete?id=<?= $item['id'] ?>"><span class="icon icon-inverse-opacity icon-delete vertical-align-middle"></span></a></div>
                     <?php endif ?>
                 </div>
             <?php endforeach ?>
 
-            <?php foreach ($coupons as $coupon) : ?>
-                <?php $total -= $coupon['value'] ?>
-                <div class="table-row">
-                    <div class="table-cell align-center boarder-right-0"></div>
-                    <div class="table-cell align-right  boarder-right-0"></div>
-                    <div class="table-cell align-right  boarder-right-0"></div>
-                    <div class="table-cell align-right  boarder-right-0"></div>
-                    <div class="table-cell align-right  boarder-right-0"></div>
-                    <div class="table-cell align-right  boarder-right-0"></div>
-                    <div class="table-cell align-right  savings title"><?= $coupon['code'] ?></div>
-                    <div class="table-cell align-right savings title padding-10 title-medium">$<?= number_format($coupon['value'], 2) ?></div>
-                    <?php if ($is_summary == FALSE) : ?>
-                        <div class="table-cell align-right title"></div>
-                    <?php endif ?>
-                </div>
-            <?php endforeach; ?>
+            <?php if (is_array($coupons) && sizeof($coupons)) : ?>
+                <?php foreach ($coupons as $coupon) : ?>
+                    <?php $total -= $coupon['value'] ?>
+                    <div class="table-row">
+                        <div class="table-cell align-center boarder-right-0"></div>
+                        <div class="table-cell align-right  boarder-right-0"></div>
+                        <div class="table-cell align-right  boarder-right-0"></div>
+                        <div class="table-cell align-right  boarder-right-0"></div>
+                        <div class="table-cell align-right  boarder-right-0"></div>
+                        <div class="table-cell align-right  boarder-right-0"></div>
+                        <div class="table-cell align-right  savings title"><?= $coupon['code'] ?></div>
+                        <div class="table-cell align-right savings title padding-10 title-medium">$<?= number_format($coupon['value'], 2) ?></div>
+                        <?php if ($is_summary == FALSE) : ?>
+                            <div class="table-cell align-right title"></div>
+                        <?php endif ?>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif ?>
 
             <?php if ($savings > 0.00) : ?>
                 <?php $total -= $savings ?>

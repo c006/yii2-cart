@@ -30,6 +30,9 @@ class CartController extends Controller
     {
         $model = AppCartHelpers::getCartItems();
 
+//        print_r($model);
+//        exit;
+
         return $this->render('index',
             [
                 'model' => $model,
@@ -101,7 +104,6 @@ class CartController extends Controller
 
             return $this->redirect('/cart');
         }
-
     }
 
     public function actionDelete()
