@@ -35,7 +35,7 @@ class CartController extends Controller
 
         return $this->render('index',
             [
-                'model' => $model,
+                'model'   => $model,
                 'session' => $this->session,
             ]);
     }
@@ -46,7 +46,7 @@ class CartController extends Controller
         if (isset($_POST['Cart'])) {
             foreach ($_POST['Cart'] as $cart_id => $item) {
                 if (isset($item['quantity'])) {
-                    $cart       = self::calculatePrice($_POST['Cart'][ $cart_id ]['product_id'], $item['quantity']);
+                    $cart = self::calculatePrice($_POST['Cart'][$cart_id]['product_id'], $item['quantity']);
                     $cart['id'] = $cart_id;
 //                    print_r($cart); exit;
                     ModelHelper::saveModelForm('c006\cart\models\Cart', $cart);
@@ -65,17 +65,18 @@ class CartController extends Controller
     public function actionAdd()
     {
         if (isset($_POST['Cart']) && isset($_POST['Cart']['id'])) {
-            $this->cart_id            = 0;
-            $cart                     = [];
-            $post                     = $_POST['Cart'];
-            $cart['product_id']       = $post['id'];
-            $model                    = ProdHelpers::getProduct($cart['product_id']);
-            $cart['model']            = $model['core_sku'];
-            $cart['name']             = $model['core_name'];
-            $cart['quantity']         = $post['qty'];
-            $cart['auto_ship']        = (isset($post['auto_ship'])) ? $post['auto_ship'] : 0;
-            $cart['price']            = $model['core_price'];
-            $cart['discount']         = $model['core_discount'] * 1.00;
+            $this->cart_id = 0;
+            $cart = [];
+            $post = $_POST['Cart'];
+            $cart['product_id'] = $post['id'];
+            $model = ProdHelpers::getProduct($cart['product_id']);
+
+            $cart['model'] = $model['core_sku'];
+            $cart['name'] = $model['core_name'];
+            $cart['quantity'] = $post['qty'];
+            $cart['auto_ship'] = (isset($post['auto_ship'])) ? $post['auto_ship'] : 0;
+            $cart['price'] = $model['core_price'];
+            $cart['discount'] = $model['core_discount'] * 1.00;
             $cart['discount_type_id'] = $model['core_discount_type'];
 
             $quantity = self::checkCartItemExists([
@@ -89,6 +90,7 @@ class CartController extends Controller
             }
 
             $cart = self::calculatePrice($cart['product_id'], $cart['quantity']);
+            $cart['shipping_id'] = (isset($model['shipping_id'])) ? $model['shipping_id'] : 0;
 
             $image = ProdHelpers::getProductImages($cart['product_id'], 'sml');
             if (sizeof($image)) {
@@ -138,15 +140,15 @@ class CartController extends Controller
     private function calculatePrice($product_id, $quantity)
     {
 
-        $model                    = ProdHelpers::getProduct($product_id);
-        $cart                     = [];
-        $cart['product_id']       = $product_id;
-        $cart['model']            = $model['core_sku'];
-        $cart['name']             = $model['core_name'];
-        $cart['quantity']         = $quantity;
-        $cart['auto_ship']        = (isset($post['auto_ship'])) ? $post['auto_ship'] : "";
-        $cart['price']            = $model['core_price'];
-        $cart['discount']         = $model['core_discount'] * 1.00;
+        $model = ProdHelpers::getProduct($product_id);
+        $cart = [];
+        $cart['product_id'] = $product_id;
+        $cart['model'] = $model['core_sku'];
+        $cart['name'] = $model['core_name'];
+        $cart['quantity'] = $quantity;
+        $cart['auto_ship'] = (isset($post['auto_ship'])) ? $post['auto_ship'] : "";
+        $cart['price'] = $model['core_price'];
+        $cart['discount'] = $model['core_discount'] * 1.00;
         $cart['discount_type_id'] = $model['core_discount_type'];
 
         $price_tier_id = ProdHelpers::getPriceTierId($product_id);
@@ -155,7 +157,7 @@ class CartController extends Controller
             foreach ($price_tier_items as $item) {
                 if ($cart['quantity'] >= $item['max_qty']) {
                     if ($item['is_percentage']) {
-                        $cart['price']    = $cart['price'] - ($item['price'] / 100 * $cart['price']);
+                        $cart['price'] = $cart['price'] - ($item['price'] / 100 * $cart['price']);
                         $cart['discount'] = number_format(CoreHelper::getPercentage($cart['price'], $model['core_price']), 2);
                     }
                 }
@@ -164,13 +166,13 @@ class CartController extends Controller
             $discount_type = $model['core_discount_type'];
             if ($discount_type == 3 /* Amount Off */) {
                 $cart['discount'] = number_format(100 - CoreHelper::getPercentage($cart['discount'], $cart['price']), 2);
-                $cart['price']    = number_format($cart['price'] + 0.00 - $cart['discount'], 2);
+                $cart['price'] = number_format($cart['price'] + 0.00 - $cart['discount'], 2);
             } elseif ($discount_type == 4 /* Percentage Off */) {
                 $cart['discount'] = number_format($cart['discount'] + 0.00, 2);
-                $cart['price']    = number_format((1 - $cart['discount'] / 100) * $cart['price'], 2);
+                $cart['price'] = number_format((1 - $cart['discount'] / 100) * $cart['price'], 2);
             } elseif ($discount_type == 5 /* This Amount */) {
                 $cart['discount'] = number_format(CoreHelper::getPercentage($cart['discount'], $cart['price']), 2);
-                $cart['price']    = number_format($cart['discount'] + 0.00, 2);
+                $cart['price'] = number_format($cart['discount'] + 0.00, 2);
             }
         }
 
@@ -188,8 +190,8 @@ class CartController extends Controller
         foreach (self::getCartItems() as $item) {
             $check = 0;
             foreach ($array as $k => $v) {
-                echo($item[ $k ] . ' :: ' . $v);
-                if ($item[ $k ] == $v) {
+                echo($item[$k] . ' :: ' . $v);
+                if ($item[$k] == $v) {
                     $check++;
                 }
             }

@@ -201,7 +201,7 @@ $coupons = $session->get('coupon', []);
         <?php if ($is_summary == FALSE) : ?>
             <div class="padding-top-10 form-group">
                 <?= Html::submitButton('Empty Cart', ['class' => 'btn btn-primary', 'onclick' => 'document.forms[0].action=\'cart/empty\'']) ?>
-                <?= Html::submitButton('Update Cart', ['class' => 'btn btn-success']) ?>
+                <?= Html::submitButton('Update Cart', ['class' => 'btn btn-secondary']) ?>
             </div>
         <?php endif ?>
     </div>

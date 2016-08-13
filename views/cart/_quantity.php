@@ -4,86 +4,89 @@
 ?>
 <style>
     .quantity-container {
-        display: block;
-        text-align: left;
-        margin-bottom: 20px;
-    }
+        display    : block;
+        text-align : left;
+        }
 
     .quantity-container > .table {
-        width: auto;
-        white-space: nowrap;
-
-    }
+        width       : auto;
+        white-space : nowrap;
+        }
 
     .quantity-container #cart-quantity {
-        display: inline-block;
-        margin: 0;
-        padding-top: 3px;
-        padding-right: 8px;
-        padding-left: 10px;
-        padding-bottom: 6px;
-        width: 3em;
-        font-size: 1.1em;
-        font-weight: 400;
-        color: #666666;
-        text-align: right;
-        border: 1px solid #CCCCCC;
-        border-left: 0;
-        border-right: 0;
-    }
+        display        : inline-block;
+        margin         : 0;
+        padding-top    : 3px;
+        padding-right  : 8px;
+        padding-left   : 10px;
+        padding-bottom : 6px;
+        width          : 3em;
+        font-size      : 1.1em;
+        font-weight    : 400;
+        color          : #666666;
+        text-align     : right;
+        border         : 1px solid #CCCCCC;
+        border-left    : 0;
+        border-right   : 0;
+        }
 
     .quantity-container .input-label {
-        display: inline-block;
-        background: none;
-        position: absolute;
-        left: 3px;
-        top: 8px;
-        color: #999999;
-        font-size: 1em;
-        font-weight: 400;
-    }
+        display     : inline-block;
+        background  : none;
+        position    : absolute;
+        left        : 3px;
+        top         : 8px;
+        color       : #999999;
+        font-size   : 1em;
+        font-weight : 400;
+        }
 
     .quantity-container .increment {
-        display: inline-block;
-        margin: 0;
-        padding: 0;
-        width: 1.2em;
-        font-size: 1.6em;
-        font-weight: 500;
-        color: #7b7b7b;
-        text-align: center;
-        vertical-align: middle;
-        cursor: pointer;
-        border: 1px solid #CCCCCC;
-    }
+        display        : inline-block;
+        margin         : 0;
+        padding        : 0;
+        width          : 1.2em;
+        font-size      : 1.6em;
+        font-weight    : 500;
+        color          : #7b7b7b;
+        text-align     : center;
+        vertical-align : middle;
+        cursor         : pointer;
+        border         : 1px solid #CCCCCC;
+        }
 
     .quantity-container span.up {
-        -webkit-border-top-left-radius: 4px;
-        -webkit-border-bottom-left-radius: 4px;
-        -moz-border-radius-topleft: 4px;
-        -moz-border-radius-bottomleft: 4px;
-        border-top-left-radius: 4px;
-        border-bottom-left-radius: 4px;
-    }
+        -webkit-border-top-left-radius    : 4px;
+        -webkit-border-bottom-left-radius : 4px;
+        -moz-border-radius-topleft        : 4px;
+        -moz-border-radius-bottomleft     : 4px;
+        border-top-left-radius            : 4px;
+        border-bottom-left-radius         : 4px;
+        background-color                  : #ebebeb;
+        }
 
     .quantity-container span.down {
-        -webkit-border-top-right-radius: 4px;
-        -webkit-border-bottom-right-radius: 4px;
-        -moz-border-radius-topright: 4px;
-        -moz-border-radius-bottomright: 4px;
-        border-top-right-radius: 4px;
-        border-bottom-right-radius: 4px;
-    }
+        -webkit-border-top-right-radius    : 4px;
+        -webkit-border-bottom-right-radius : 4px;
+        -moz-border-radius-topright        : 4px;
+        -moz-border-radius-bottomright     : 4px;
+        border-top-right-radius            : 4px;
+        border-bottom-right-radius         : 4px;
+        background-color                   : #ebebeb;
+        }
 
     .quantity-container span.up:hover,
     .quantity-container span.down:hover {
-        background-color: #ebebeb;
-    }
+        background-color : #FFFFFF;
+        }
 
     .table-qty {
-        position: relative;
-        top: 10px;
-    }
+        position : relative;
+        }
+
+    .table-qty > .table-cell {
+        padding : 0 !important;
+        }
 
 </style>
 
