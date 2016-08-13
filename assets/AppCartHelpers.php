@@ -44,12 +44,7 @@ class AppCartHelpers
     static public function requiresShipping()
     {
         foreach (self::getCartItems() as $item) {
-            $m = ProductValueInteger::find()
-                ->where(['product_id' => $item['product_id']])
-                ->andWhere(['attr_id' => 27])
-                ->asArray()
-                ->one();
-            if (is_array($m) && sizeof($m)) {
+            if ($item['shipping_id']) {
                 return TRUE;
             }
         }

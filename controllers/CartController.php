@@ -90,7 +90,7 @@ class CartController extends Controller
             }
 
             $cart = self::calculatePrice($cart['product_id'], $cart['quantity']);
-            $cart['shipping_id'] = (isset($model['shipping_id'])) ? $model['shipping_id'] : 0;
+            $cart['shipping_id'] = (isset($model['component_shipping_address_id'])) ? $model['component_shipping_address_id'] : 0;
 
             $image = ProdHelpers::getProductImages($cart['product_id'], 'sml');
             if (sizeof($image)) {
