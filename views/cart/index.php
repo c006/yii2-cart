@@ -1,4 +1,5 @@
 <?php
+use c006\preferences\assets\AppPrefs;
 use yii\helpers\Html;
 
 /** @var $model array */
@@ -23,7 +24,7 @@ $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         <?php echo yii\base\View::render('_items', ['items' => $model, 'session' => $session]) ?>
 
-        <?php if (FALSE) : ?>
+        <?php if (AppPrefs::getPreference('coupon_enabled')) : ?>
             <div class="table form-group">
                 <div class="table-cell width-30">
                     <?php echo yii\base\View::render('@c006/coupon/views/frontend/index', []) ?>
