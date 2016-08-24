@@ -27,7 +27,7 @@ $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         <?php if (AppPrefs::getPreference('coupon_enabled')) : ?>
             <div class="table form-group">
                 <div class="table-cell width-30">
-                    <?php echo yii\base\View::render('@c006/coupon/views/frontend/index', []) ?>
+                    <?= yii\base\View::render('@c006/coupon/views/frontend/index', []) ?>
                 </div>
                 <div class="table-cell width-70"></div>
             </div>

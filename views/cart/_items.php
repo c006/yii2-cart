@@ -23,73 +23,74 @@ $coupons = $session->get('coupon', []);
 
     <style>
         #cart-items {
-            display: block;
-            margin-top: 30px;
-        }
+            display    : block;
+            margin-top : 30px;
+            }
 
         #cart-items > .table {
-            -webkit-border-radius: 3px;
-            -moz-border-radius: 3px;
-            border-radius: 3px;
-        }
+            -webkit-border-radius : 3px;
+            -moz-border-radius    : 3px;
+            border-radius         : 3px;
+            }
 
         #cart-items > .table .table-cell {
-            vertical-align: middle;
-            text-align: left;
-            padding: 5px;
-        }
+            vertical-align : middle;
+            text-align     : left;
+            padding        : 5px;
+            }
 
         #cart-items .title {
-            font-size: 1.1em;
-            font-weight: 500;
-        }
+            font-size   : 1.1em;
+            font-weight : 500;
+            }
 
         #cart-items .savings {
-            font-size: 1.1em;
-            font-weight: 500;
-            color: #9b403d;
-        }
+            font-size   : 1.1em;
+            font-weight : 500;
+            color       : #1c9a19;
+            }
 
         #cart-items .image .small-image {
-            padding-top: 2px;
-            height: 50px;
-        }
+            padding-top : 2px;
+            height      : 50px;
+            }
 
         #cart-items .table-row:first-of-type .table-cell {
-            border-top: 1px solid #CCCCCC;
-        }
+            border-top : 1px solid #CCCCCC;
+            }
 
         #cart-items > .table > .table-row:hover > .table-cell {
-            background-color: rgba(204, 204, 204, 0.30);
-        }
+            background-color : rgba(204, 204, 204, 0.30);
+            }
 
         #cart-items > .table > .table-row > .table-cell {
-            padding-right: 5px;
-            padding-left: 5px;
-            border-bottom: 1px solid #CCCCCC;
-            border-right: 1px dotted #CCCCCC;
-        }
+            padding-right : 5px;
+            padding-left  : 5px;
+            border-bottom : 1px solid #CCCCCC;
+            border-right  : 1px dotted #CCCCCC;
+            }
 
         #cart-items > .table > .table-row > .table-cell:first-of-type {
-            border-left: 1px solid #CCCCCC;
-        }
+            border-left : 1px solid #CCCCCC;
+            }
 
         #cart-items > .table > .table-row > .table-cell:last-of-type {
-            border-right: 1px solid #CCCCCC;
-        }
+            border-right : 1px solid #CCCCCC;
+            }
 
         #cart-items .table-cell.discount {
-            color: #80aa88;
-        }
+            color : #80aa88;
+            }
 
         .boarder-right-0 {
-            border-right: 0 !important;
-        }
+            border-right : 0 !important;
+            }
     </style>
-
+<?php if ($is_summary == FALSE) : ?>
 <?php $form = ActiveForm::begin([
     'action' => 'cart/update',
 ]); ?>
+<?php endif ?>
     <div id="cart-items">
 
         <div class="table">
@@ -146,6 +147,21 @@ $coupons = $session->get('coupon', []);
                 </div>
             <?php endforeach ?>
 
+            <div class="table-row">
+                <div class="table-cell align-center boarder-right-0"></div>
+                <div class="table-cell align-right  boarder-right-0"></div>
+                <div class="table-cell align-right  boarder-right-0"></div>
+                <div class="table-cell align-right  boarder-right-0"></div>
+                <div class="table-cell align-right  boarder-right-0"></div>
+                <div class="table-cell align-right  boarder-right-0"></div>
+                <div class="table-cell align-right  title">Subtotal</div>
+                <div class="table-cell align-right title padding-10 title-medium">$<?= number_format($total, 2) ?></div>
+                <?php if ($is_summary == FALSE) : ?>
+                    <div class="table-cell align-right title"></div>
+                <?php endif ?>
+            </div>
+
+
             <?php if (is_array($coupons) && sizeof($coupons)) : ?>
                 <?php foreach ($coupons as $coupon) : ?>
                     <?php $total -= $coupon['value'] ?>
@@ -157,7 +173,7 @@ $coupons = $session->get('coupon', []);
                         <div class="table-cell align-right  boarder-right-0"></div>
                         <div class="table-cell align-right  boarder-right-0"></div>
                         <div class="table-cell align-right  savings title"><?= $coupon['code'] ?></div>
-                        <div class="table-cell align-right savings title padding-10 title-medium">$<?= number_format($coupon['value'], 2) ?></div>
+                        <div class="table-cell align-right savings title padding-10 title-medium">($<?= number_format($coupon['value'], 2) ?>)</div>
                         <?php if ($is_summary == FALSE) : ?>
                             <div class="table-cell align-right title"></div>
                         <?php endif ?>
@@ -182,6 +198,25 @@ $coupons = $session->get('coupon', []);
                 </div>
             <?php endif ?>
 
+            <?php if (yii::$app->session->get('shipping.shipping')) : ?>
+                <?php $shipping = \c006\shipping\assets\AppHelper::getShippingRule(yii::$app->session->get('shipping.shipping')) ?>
+                <?php $total += $shipping['flat_rate'] ?>
+                <div class="table-row">
+                    <div class="table-cell align-center boarder-right-0"></div>
+                    <div class="table-cell align-right  boarder-right-0"></div>
+                    <div class="table-cell align-right  boarder-right-0"></div>
+                    <div class="table-cell align-right  boarder-right-0"></div>
+                    <div class="table-cell align-right  boarder-right-0"></div>
+                    <div class="table-cell align-right  boarder-right-0"></div>
+                    <div class="table-cell align-right  title">Shipping <?= $shipping['service_name'] ?></div>
+                    <div class="table-cell align-right title padding-10 title-medium">$<?= $shipping['flat_rate'] ?></div>
+                    <?php if ($is_summary == FALSE) : ?>
+                        <div class="table-cell align-right title"></div>
+                    <?php endif ?>
+                </div>
+            <?php endif ?>
+
+
             <div class="table-row">
                 <div class="table-cell align-center boarder-right-0"></div>
                 <div class="table-cell align-right  boarder-right-0"></div>
@@ -205,4 +240,6 @@ $coupons = $session->get('coupon', []);
             </div>
         <?php endif ?>
     </div>
+<?php if ($is_summary == FALSE) : ?>
 <?php ActiveForm::end(); ?>
+<?php endif ?>

@@ -3,7 +3,6 @@ namespace c006\cart\assets;
 
 use c006\cart\models\Cart;
 use c006\products\assets\ModelHelper;
-use c006\products\models\ProductValueInteger;
 use Yii;
 
 class AppCartHelpers
@@ -28,14 +27,16 @@ class AppCartHelpers
      */
     static public function getCartTotal()
     {
+        if (!session_id()) {
+            session_start();
+        }
         $model = Cart::find()
-            ->select("SUM(quantity * price) AS `total`")
-            ->where(['session_id' => Yii::$app->session->id])
+            ->select(" SUM(quantity * price) AS `total` ")
+            ->where(['session_id' => session_id()])
             ->asArray()
             ->one();
 
-        return (float)$model['total'];
-
+        return (float)(sizeof($model)) ? $model['total'] : 0.00;
     }
 
     /**
@@ -97,6 +98,7 @@ class AppCartHelpers
 
         return 0;
     }
+
 
     /**
      * @param $old
